@@ -5,7 +5,6 @@ from openpyxl import load_workbook
 import openpyxl
 
 #для удобства вводим название файла
-# filename_0 = input("ВВЕДИТЕ ИМЯ ФАЙЛА: ")
 filename = "Список.xlsx"
 
 #вытянули данные с документа
@@ -92,3 +91,5 @@ else:
 
 # сохраняем изменения
 active_excel.save("Список.xlsx") #сохраняем все изменения
+
+input()
