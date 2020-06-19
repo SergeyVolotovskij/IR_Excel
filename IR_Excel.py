@@ -1,4 +1,7 @@
 #импортируем необходимые библиотеки
+from colorama import init #для стиля ветового
+from colorama import Fore, Back, Style #для стиля ветового
+init()#для стиля цветового
 from openpyxl import workbook
 from openpyxl.styles import Font, Color, colors
 from openpyxl import load_workbook
@@ -21,6 +24,7 @@ active_sheet["H1"] = 'Сцепить'
 max_row = active_sheet.max_row
 max_column = active_sheet.max_column
 
+print(Fore.YELLOW)
 print("КОЛИЧЕСТВО СТРОК: " + str(max_row))
 print("КОЛИЧЕСТВО КОЛОНОК: " + str(max_column))
 
@@ -66,9 +70,11 @@ for i in barcode:
         double_barcode.append(i)
 
 if len(barcode) == len(unique_barcode):
+    print(Fore.GREEN)
     print("ДУБЛИКАТЫ ШК ОТСУТСТВУЮТ!")
 else:
     d_barcode = (len(barcode) - len(unique_barcode))
+    print(Fore.RED)
     print("ЕСТЬ ДУБЛИ ШК! " + str(d_barcode) + ' Шт:')
     for i in double_barcode:
         print(i)
@@ -83,8 +89,10 @@ for i in spisok:
         double_spisok.append(i)
 
 if len(spisok) == len(unique_spisok):
+    print(Fore.GREEN)
     print("ДУБЛИКАТЫ НАИМЕНОВАНИЙ ОТСУТСТВУЮТ!")
 else:
+    print(Fore.RED)
     print("ЕСТЬ ДУБЛИ НАИМЕНОВАНИЙ! " + str(len(double_spisok)) + ' Шт:')
     for i in double_spisok:
         print(i)
