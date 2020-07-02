@@ -16,6 +16,19 @@ active_excel = load_workbook(filename=filename,data_only=True)#data_only=True
 #делаем или смотрим активный лист
 active_sheet = active_excel.active
 
+#проверочное условие для определения корректности формата файла
+if active_sheet["A1"].value == "Владелец":
+    if active_sheet["B1"].value == "Характеристика":
+        if active_sheet["C1"].value == "Единица измерения":
+            if active_sheet["D1"].value == "Вид номенклатуры":
+                if active_sheet["E1"].value == "Штрихкод":
+                    if active_sheet["F1"].value == "Тип штрихкода":
+                        #print(Fore.GREEN)
+                        print("ФАЙЛ ПРИНЯТ И СООТВЕТСТВУЕТ ФОРМАТУ!")
+else:
+    #print(Fore.RED)
+    print("\nФАЙЛ НЕ СООТВЕТСТВУЕТ ФОРМАТУ!")
+
 # запишем наименование 7, 8 колонки
 active_sheet["G1"] = 'Пробел'
 active_sheet["H1"] = 'Сцепить'
@@ -24,8 +37,8 @@ active_sheet["H1"] = 'Сцепить'
 max_row = active_sheet.max_row
 max_column = active_sheet.max_column
 
-print(Fore.YELLOW)
-print("КОЛИЧЕСТВО СТРОК: " + str(max_row))
+#print(Fore.YELLOW)
+print("\nКОЛИЧЕСТВО СТРОК: " + str(max_row))
 print("КОЛИЧЕСТВО КОЛОНОК: " + str(max_column))
 
 # вносим данные
@@ -70,12 +83,12 @@ for i in barcode:
         double_barcode.append(i)
 
 if len(barcode) == len(unique_barcode):
-    print(Fore.GREEN)
-    print("ДУБЛИКАТЫ ШК ОТСУТСТВУЮТ!")
+    #print(Fore.GREEN)
+    print("\nДУБЛИКАТЫ ШК ОТСУТСТВУЮТ!")
 else:
     d_barcode = (len(barcode) - len(unique_barcode))
-    print(Fore.RED)
-    print("ЕСТЬ ДУБЛИ ШК! " + str(d_barcode) + ' Шт:')
+    #print(Fore.RED)
+    print("\nЕСТЬ ДУБЛИ ШК! " + str(d_barcode) + ' Шт:')
     for i in double_barcode:
         print(i)
 
@@ -89,11 +102,11 @@ for i in spisok:
         double_spisok.append(i)
 
 if len(spisok) == len(unique_spisok):
-    print(Fore.GREEN)
-    print("ДУБЛИКАТЫ НАИМЕНОВАНИЙ ОТСУТСТВУЮТ!")
+    #print(Fore.GREEN)
+    print("\nДУБЛИКАТЫ НАИМЕНОВАНИЙ ОТСУТСТВУЮТ!")
 else:
-    print(Fore.RED)
-    print("ЕСТЬ ДУБЛИ НАИМЕНОВАНИЙ! " + str(len(double_spisok)) + ' Шт:')
+    #print(Fore.RED)
+    print("\nЕСТЬ ДУБЛИ НАИМЕНОВАНИЙ! " + str(len(double_spisok)) + ' Шт:')
     for i in double_spisok:
         print(i)
 
@@ -101,3 +114,4 @@ else:
 active_excel.save("Список.xlsx") #сохраняем все изменения
 
 input()
+#pyinstaller -F IR_Excel.py
