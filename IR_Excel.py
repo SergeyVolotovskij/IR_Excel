@@ -114,4 +114,4 @@ else:
 active_excel.save("Список.xlsx") #сохраняем все изменения
 
 input()
-#pyinstaller -F IR_Excel.py
+#+++++++++++++++
