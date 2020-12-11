@@ -1,11 +1,22 @@
 #импортируем необходимые библиотеки
 from colorama import init #для стиля ветового
-from colorama import Fore, Back, Style #для стиля ветового
 init()#для стиля цветового
-from openpyxl import workbook
-from openpyxl.styles import Font, Color, colors
 from openpyxl import load_workbook
-import openpyxl
+
+#обозначим название файла с дублями и создадим сам файл
+filename_1 = "Double.txt"
+file = open(filename_1, "w")  # СОЗДАЕМ ФАЙЛ
+file.close()
+
+#создаем пустой текстовый файл
+def myFile(list,text):
+    """Функция запишет дублирующие данные в текстовый файл"""
+    #print(type(list))
+    file = open(filename_1, "a")  # открываем файл для записи дублей
+    file.write(text)
+    for i in list:
+        file.write(i+"\n")
+    file.close()
 
 #для удобства вводим название файла
 filename = "Список.xlsx"
@@ -25,9 +36,7 @@ if active_sheet["A1"].value == "Владелец":
                     if active_sheet["F1"].value == "Тип штрихкода":
                         #print(Fore.GREEN)
                         print("ФАЙЛ ПРИНЯТ И СООТВЕТСТВУЕТ ФОРМАТУ!")
-else:
-    #print(Fore.RED)
-    print("\nФАЙЛ НЕ СООТВЕТСТВУЕТ ФОРМАТУ!")
+else: print("\nФАЙЛ НЕ СООТВЕТСТВУЕТ ФОРМАТУ!")
 
 # запишем наименование 7, 8 колонки
 active_sheet["G1"] = 'Пробел'
@@ -37,12 +46,11 @@ active_sheet["H1"] = 'Сцепить'
 max_row = active_sheet.max_row
 max_column = active_sheet.max_column
 
-#print(Fore.YELLOW)
 print("\nКОЛИЧЕСТВО СТРОК: " + str(max_row))
 print("КОЛИЧЕСТВО КОЛОНОК: " + str(max_column))
 
 # вносим данные
-space = " "
+space = " " #пробел для сцепки
 
 #делаем цикл по заполнению пробелом всего диапазона колонки
 for i in range(2,(max_row + 1)):
@@ -72,23 +80,23 @@ barcode = []
 for i in range(2,(max_row + 1)):
     e = active_sheet["E" + str(i)].value
     barcode.append(e)
-# print(barcode)
 
 unique_barcode = []
 double_barcode = []
 for i in barcode:
-    if barcode.count(i) == 1: #если количество вхождений = 1 - элемент уникальный
-        unique_barcode.append(i)
-    else:
-        double_barcode.append(i)
+    # если количество вхождений = 1 - элемент уникальный
+    if barcode.count(i) == 1: unique_barcode.append(i)
+    else: double_barcode.append(i)
 
-if len(barcode) == len(unique_barcode):
-    #print(Fore.GREEN)
-    print("\nДУБЛИКАТЫ ШК ОТСУТСТВУЮТ!")
+if len(barcode) == len(unique_barcode): print("\nДУБЛИКАТЫ ШК ОТСУТСТВУЮТ!")
+
 else:
     d_barcode = (len(barcode) - len(unique_barcode))
-    #print(Fore.RED)
     print("\nЕСТЬ ДУБЛИ ШК! " + str(d_barcode) + ' Шт:')
+
+    # отправляем данные в функцию записи дублей
+    myFile(double_barcode, "ДУБЛИ ШТРИХКОДОВ: (проверить наименования базы и файла!)\n")
+
     for i in double_barcode:
         print(i)
 
@@ -96,17 +104,16 @@ else:
 unique_spisok = []
 double_spisok = []
 for i in spisok:
-    if spisok.count(i) == 1:
-        unique_spisok.append(i)
-    else:
-        double_spisok.append(i)
+    if spisok.count(i) == 1: unique_spisok.append(i)
+    else: double_spisok.append(i)
 
-if len(spisok) == len(unique_spisok):
-    #print(Fore.GREEN)
-    print("\nДУБЛИКАТЫ НАИМЕНОВАНИЙ ОТСУТСТВУЮТ!")
+if len(spisok) == len(unique_spisok): print("\nДУБЛИКАТЫ НАИМЕНОВАНИЙ ОТСУТСТВУЮТ!")
 else:
-    #print(Fore.RED)
     print("\nЕСТЬ ДУБЛИ НАИМЕНОВАНИЙ! " + str(len(double_spisok)) + ' Шт:')
+
+    # отправляем данные в функцию записи дублей
+    myFile(double_spisok, "\n\nДУБЛИ НАИМЕНОВАНИЙ: (проверить штрихкода базы и в файле!)\n")
+
     for i in double_spisok:
         print(i)
 
@@ -114,4 +121,5 @@ else:
 active_excel.save("Список.xlsx") #сохраняем все изменения
 
 input()
+#pyinstaller -F IR_Excel_2.py
 #+++++++++++++++
